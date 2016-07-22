@@ -1,8 +1,13 @@
-Expand Dialog
+Composite View
 =============
 
 A module that lets the user to create a view composed of different other views like tree, form, calendar, etc.
 
+The exmaple composite view can be seen in Sales/Phone Calls/Composite View
+
+1st view is a form view for the 1st phonecall
+2nd view is the list of customers
+3rd view is a calendar
 
 Bug Tracker
 ===========

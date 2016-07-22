@@ -27,7 +27,7 @@
     'summary': """
         A module that shows an example to the user/developer how to build views composed of forms, trees, dialogs all together""",
 
-    'author': "Cojocaru Marcel, Odoo Community Association (OCA)",
+    'author': "Cojocaru Marcel",
     'website': "",
 
     'category': 'web',
@@ -35,7 +35,6 @@
     'license': 'AGPL-3',
 
     'depends': [
-        'web', 
 	'crm',
 	'web_calendar'
     ],
