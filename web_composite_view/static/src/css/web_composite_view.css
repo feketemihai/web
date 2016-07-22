@@ -1,0 +1,15 @@
+#custom_form, #custom_tree, #custom_calendar {
+	float: left;
+}
+
+#custom_form {
+    width: 44%;
+}
+
+#custom_tree {
+    width: 30%;
+}
+
+#custom_calendar {
+    width: 26%;
+}

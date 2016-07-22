@@ -1,0 +1,102 @@
+<openerp>
+  <data>
+    <template id="assets_backend" name="web_dialog_size assets" inherit_id="web.assets_backend">
+      <xpath expr="." position="inside">
+	<link rel="stylesheet" href="/web_composite_view/static/src/css/web_composite_view.css"/>
+	<script type="text/javascript" src="/web_composite_view/static/src/js/web_composite_view.js"></script>
+      </xpath>
+    </template>
+
+    <!-- CUSTOM VIEWS-->
+    <record model="ir.ui.view" id="custom_phonecall_form_view">
+      <field name="name">CRM - Custom Phonecall Form inherit</field>
+      <field name="model">crm.phonecall</field>
+      <field name="inherit_id" ref="crm.crm_case_phone_form_view"/>
+      <field name="arch" type="xml">
+	<field name="user_id" position="before">
+	  <p>Custom Form</p>
+	</field>
+
+	<field name="message_follower_ids" position="replace">
+	</field>
+
+	<field name="message_ids" position="replace">
+	</field>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="custom_customers_tree_view" >
+      <field name="name">Customers</field>
+      <field name="model">res.partner</field>
+      <field name="domain">[('customer','=',1)]</field>
+      <field name="arch" type="xml">
+	<tree string="Customers">
+	  <field name="name"/>
+	  <field name="email"/>
+	</tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="custom_calendar_view">
+      <field name="name">CRM - Phone Calls Calendar</field>
+      <field name="model">crm.phonecall</field>
+      <field name="sequence" eval="9"/>
+      <field name="arch" type="xml">
+	<calendar string="Phone Calls" mode="day" date_start="date" date_delay="duration">
+	  <field name="partner_id"/>
+	  <field name="create_date"/>
+	</calendar>
+      </field>
+    </record>
+
+    <!-- ACTIONS -->
+    <record model="ir.actions.act_window" id="action_form_view">
+      <field name="name">action_form_view</field>
+      <field name="sequence" eval="10"/>
+      <field name="res_model">crm.phonecall</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">custom_form</field>
+      <field name="domain">[('state','!=', 'done')]</field>
+      <field name="context" eval="{'view_id': ref('web_composite_view.custom_phonecall_form_view')}"/>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_tree_view">
+      <field name="name">action_tree_view</field>
+      <field name="res_model">res.partner</field>
+      <field name="view_type">tree</field>
+      <field name="view_mode">custom_tree</field>
+      <field name="limit">25</field>
+      <field name="domain">[('customer','=',1)]</field>
+      <field name="context" eval="{'view_id': ref('web_composite_view.custom_customers_tree_view')}"/>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_calendar_view">
+      <field name="name">action_calendar_view</field>
+      <field name="res_model">crm.phonecall</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">custom_calendar,form</field>
+      <field name="domain">[('state','!=', 'done')]</field>
+      <field name="context" eval="{'view_id': ref('web_composite_view.custom_calendar_view')}"/>
+    </record>
+
+    <record model="ir.actions.act_window" id="composite_page_action">
+      <field name="name">Composite Page</field>
+      <field name="res_model">crm.phonecall</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">composite_page_view</field>
+      <field name="context" eval="{
+				  'form_view_action_id': ref('web_composite_view.action_form_view'),
+				  'tree_view_action_id': ref('web_composite_view.action_tree_view'),
+				  'calendar_view_action_id': ref('web_composite_view.action_calendar_view')}"/>
+      <field name="help" type="html">
+	<p class="oe_view_nocontent_create">
+	</p>
+      </field>
+    </record>
+
+    <!-- MENU -->
+    <menuitem id="composite_view_sub_menu" name="Composite View"
+	      parent="crm.menu_crm_case_phone"
+	      action="composite_page_action"/>
+  </data>
+</openerp>
